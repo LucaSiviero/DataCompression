@@ -1,5 +1,5 @@
-from first_order_source import FirstOrderSource
-from alphabets import alphabets_
+from file_generator.first_order_source import FirstOrderSource
+from file_generator.alphabets import alphabets_
 
 
 TEXT_LEN = 100
