@@ -1,44 +1,46 @@
-from functools import reduce
+from math import floor
 
-class artithmetic_encoder:
+class ArithmeticEncoder:
     def __init__(self, alphabet: dict) -> None:
         self.alphabet = alphabet
-        self._characters = list(alphabet.keys());
-        self.max_probability = reduce(lambda a,b : a+b, alphabet.values())
-        self.lx_limit = 0
-        self.rx_limit = self.max_probability
+        self.low = 0
+        self.high = 999_999_999
 
-    def _calculate_interval(self, input_char: str) -> tuple:
-        def _normalize_value():
-            pass
+    def _reset_encoder(self) -> None:
+        '''
+            resets low and high values to default values.
+        '''
+        self.low = 0
+        self.high = 999_999_999
 
-        char_lx_limit = self.lx_limit
+    def _get_interval(self, input_char: str) -> tuple:
+        characters = list(self.alphabet.keys())
+        char_interval_low = 0
 
-        for char in self._characters:
+        for char in characters:
             char_probability = self.alphabet[char]
 
             if char == input_char:
-                normalized_lx = _normalize_value(char_lx_limit)
-                normalized_rx = _normalize_value(char_lx_limit + char_probability)
-                return (normalized_lx, normalized_rx)
+                char_interval_high = char_interval_low + char_probability
+                return (char_interval_low, char_interval_high)
 
-            char_lx_limit = char_lx_limit + char_probability
+            # updating the low for the next char.    
+            char_interval_low = char_interval_low + char_probability
 
-        
+    def _code_char(self, char: str) -> None:
+        char_interval_low, char_interval_high = self._get_interval(char)
+        interval_range = self.high - self.low
 
-    def _process_char(self, char: str):
-        '''
-                TO_COMPLETE
-        low_range, high_range = self._calculate_interval(char) 
-
-        range = self.rx_limit - self.lx_limit
-        self.rx_limit = self.lx_limit + (range * high_range)
-        '''
-        pass 
+        self.high = self.low + floor(interval_range * char_interval_high)
+        self.low = self.low + floor(interval_range * char_interval_low)
 
     def encode(self, text: str) -> int:
-        for character in text:
+        self._reset_encoder()
 
-
-
+        for char in text:
+            self._code_char(char)
+            print(self.low, self.high)
+        return self.low
     
+    def decode(self, coded_info: int) -> str:
+        pass
