@@ -3,7 +3,7 @@ from functools import reduce
 class artithmetic_encoder:
     def __init__(self, alphabet: dict) -> None:
         self.alphabet = alphabet
-        self._characters = list(alphabet.keys());
+        self._characters = list(alphabet.keys())
         self.max_probability = reduce(lambda a,b : a+b, alphabet.values())
         self.lx_limit = 0
         self.rx_limit = self.max_probability
