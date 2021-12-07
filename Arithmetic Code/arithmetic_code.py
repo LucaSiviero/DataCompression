@@ -9,7 +9,7 @@ class ArithmeticEncoder:
 
     def _reset_encoder(self) -> None:
         '''
-            resets low and high interaval values to default.
+            resets interval's low and high to default values.
         '''
         self.low = 0
         self.high = self._max_precision
@@ -57,8 +57,11 @@ class ArithmeticEncoder:
         characters = list(self.alphabet.keys())
 
         for char in characters:
+            # char's low and high range extremes (in zero-one range)
             char_low, char_high = self._get_char_range(char)
 
+            # calculating the char's low and high extremes inside
+            # the encoder interval ('self.low' and 'self.high').
             interval_size = self.high - self.low
             char_interval_low = self.low + floor(interval_size * char_low)
             char_interval_high = self.low + floor(interval_size * char_high)
@@ -69,19 +72,24 @@ class ArithmeticEncoder:
 
     def encode(self, text: str) -> int:
         '''
-            resets the encodoer and encodes 'text' in a 
+            resets the encoder and encodes 'text' in a 
             integer value by applying '_encode_char' to each 
             char of 'text'.
+            The returned value corresponds to the middle point 
+            between the interval extremes ('self.low' and 'self.high')
+            at the end of the encoding process.
         '''
 
         self._reset_encoder()
 
         for char in text: self._encode_char(char)
-        return self.low + floor((self.high - self.low)/2)
+        encoded = self.low + floor((self.high - self.low)/2)
+        return encoded
     
     def decode(self, coded_info: int) -> str:
         '''
-            decode 'coded_info' in the original text.
+            resets the encoder and decodes 'coded_info' into 
+            the original text.
         '''
 
         self._reset_encoder()
