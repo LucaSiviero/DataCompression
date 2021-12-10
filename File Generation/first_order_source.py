@@ -7,16 +7,10 @@ class FirstOrderSource:
             'alphabet' is a dictionary of characters (keys)
             mapped with their respective probabilities (values)
             of being produced by the source.
-
-            The probabilities MUST be standardized to integer values
-            before instancing a FirstOrderSource.
         '''
 
         self.alphabet = alphabet
-        # required since we don't how much big could the 
-        # integer-normalized probabilities be. --- i'll explain this better in the next commit.
-        
-        self.max_probability = reduce(lambda a,b : a+b, alphabet.values())
+
 
     def _produce_char(self) -> str:
         '''
@@ -26,21 +20,17 @@ class FirstOrderSource:
             is matched, then the selected char is returned. 
         '''
 
-        char = ""
         characters = list(self.alphabet.keys())
 
-        while char == "":
+        while True:
             candidate_char = random.choice(characters)
             candidate_char_probability = self.alphabet[candidate_char]
-
-            # 'randint' is used since probability were previoulsy normalized 
-            # to integer values.
-            probability = random.randint(0, self.max_probability)
+            probability = random.uniform(0, 1)
 
             if candidate_char_probability >= probability:
-                char = candidate_char
-                
-        return char
+                return candidate_char
+        
+
 
     def generate_text(self, text_len: int) -> str:
         '''
