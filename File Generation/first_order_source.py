@@ -23,12 +23,11 @@ class FirstOrderSource:
         characters = list(self.alphabet.keys())
 
         while True:
-            candidate_char = random.choice(characters)
-            candidate_char_probability = self.alphabet[candidate_char]
-            probability = random.uniform(0, 1)
+            produced_char = random.choice(characters)
+            produced_char_probability = self.alphabet[produced_char]
+            probability_to_produce = random.uniform(0, 1)
 
-            if candidate_char_probability >= probability:
-                return candidate_char
+            if produced_char_probability >= probability_to_produce: return produced_char
         
 
 
