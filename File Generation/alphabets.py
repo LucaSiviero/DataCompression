@@ -4,6 +4,8 @@ alphabets_ = {
         "a" : 1,
         "b" : 0,
         "c" : 0,
+        "d" : 0,
+        "e" : 0,
     },
 
     # 1/4 entropy source
@@ -19,8 +21,11 @@ alphabets_ = {
     # 1/2 entropy source
     "K-ARY-50" : {
         "a" : .50,
-        "b" : .25,
-        "c" : .25,
+        "b" : .1,
+        "c" : .1,
+        "d" : .1,
+        "e" : .1,
+        "f" : .1,
     },
 
     # 3/4 entropy source
