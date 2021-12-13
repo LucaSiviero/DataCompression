@@ -1,5 +1,4 @@
 import random
-from functools import reduce
 
 class FirstOrderSource:
     def __init__(self, alphabet: dict) -> None:
