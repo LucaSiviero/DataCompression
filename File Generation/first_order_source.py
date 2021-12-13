@@ -11,6 +11,20 @@ class FirstOrderSource:
         self.alphabet = alphabet
 
 
+    def __str__(self) -> str:
+        '''
+            returns a representation of the source in the form:
+            source_entropy
+
+            entropy is the probabiliy mapped with the char that occurs
+            the most in the dictionary (the biggest probability).
+        '''
+        probabilities = list(self.alphabet.values())
+        entropy = max(probabilities)
+
+        return f"source_{entropy}"
+
+
     def _produce_char(self) -> str:
         '''
             returns a char from the alphabet.
@@ -19,10 +33,10 @@ class FirstOrderSource:
             is matched, then the selected char is returned. 
         '''
 
-        characters = list(self.alphabet.keys())
+        chars = list(self.alphabet.keys())
 
         while True:
-            produced_char = random.choice(characters)
+            produced_char = random.choice(chars)
             produced_char_probability = self.alphabet[produced_char]
             probability_to_produce = random.uniform(0, 1)
 
@@ -38,8 +52,6 @@ class FirstOrderSource:
 
         text = ""
 
-        for _ in range(text_len):
-            char = self._produce_char()
-            text = text + char
+        for _ in range(text_len): text = text + self._produce_char()
 
         return text
