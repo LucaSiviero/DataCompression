@@ -6,6 +6,9 @@ class ArithmeticCoding:
         self._max_precision = max_precision
         self.low = 0
         self.high = max_precision
+    
+    def __str__(self):
+        return "AritCod"
 
     def _reset(self) -> None:
         '''
