@@ -1,13 +1,13 @@
 from math import floor
 
-class ArithmeticEncoder:
+class ArithmeticCoding:
     def __init__(self, alphabet: dict, max_precision=999_999_999) -> None:
         self.alphabet = alphabet
         self._max_precision = max_precision
         self.low = 0
         self.high = max_precision
 
-    def _reset_encoder(self) -> None:
+    def _reset(self) -> None:
         '''
             resets interval's low and high to default values.
         '''
@@ -80,7 +80,7 @@ class ArithmeticEncoder:
             at the end of the encoding process.
         '''
 
-        self._reset_encoder()
+        self._reset()
 
         for char in text: self._encode_char(char)
         encoded = self.low + floor((self.high - self.low)/2)
@@ -92,7 +92,7 @@ class ArithmeticEncoder:
             the original text.
         '''
 
-        self._reset_encoder()
+        self._reset()
 
         decoded_text = ""
         interval_info = self.low + floor((self.high - self.low)/2)
