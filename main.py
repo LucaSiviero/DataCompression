@@ -1,4 +1,5 @@
 from Source.first_order_source import FirstOrderSource
+from hybrid_algorithm import HybridAlgorithm
 from alphabets import alphabets_
 import utils
 
@@ -16,13 +17,15 @@ SOURCES = [
     FirstOrderSource(alphabets_["K-ARY-50"]),
     FirstOrderSource(alphabets_["K-ARY-75"]),
     FirstOrderSource(alphabets_["RANDOM"]),
-    ]
+]
 
 ALGORITHMS = [
+    HybridAlgorithm([]),
+    HybridAlgorithm([]),
     # fill with instances of compression algorithms.
 ]
 
-# creating a storage for performances with the following structure:
+# creating a storage for compression ratios with the following structure:
 #     Algorithms
 #         Sources
 #             Sizes 
