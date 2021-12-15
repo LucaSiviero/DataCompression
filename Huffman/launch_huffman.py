@@ -1,12 +1,14 @@
 from huffman import HuffmanCoding
-import sys
 
-path = "./test.txt"
+#TODO costruttore
 
-h = HuffmanCoding(path)
+class Huffman:
+    path = "Huffman\\test.txt"
 
-output_path = h.compress()
-print("Compressed file path: " + output_path)
+    h = HuffmanCoding(path)
 
-decom_path = h.decompress(output_path)
-print("Decompressed file path: " + decom_path)
+    output_path = h.compress()
+    print("Compressed file path: " + output_path)
+
+    decom_path = h.decompress(output_path)
+    print("Decompressed file path: " + decom_path)

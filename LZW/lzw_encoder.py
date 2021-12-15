@@ -13,7 +13,7 @@ data = file.read()
 
 # Building and initializing the dictionary.
 dictionary_size = 256                   
-dictionary = {chr(i): i for i in range(dictionary_size)}    
+dictionary = {chr(i): i for i in range(dictionary_size)}    #Conver to hexadecimal
 string = ""             # String is null.
 compressed_data = []    # variable to store the compressed data.
 
@@ -30,8 +30,14 @@ for symbol in data:
             dictionary_size += 1
         string = symbol
 
-if string in dictionary:
+
+
+#------------------------------# #FORSE??
+if string in dictionary:       
     compressed_data.append(dictionary[string])
+
+
+
 
 # storing the compressed string into a file (byte-wise).
 out = input_file.split(".")[0]
@@ -41,3 +47,5 @@ for data in compressed_data:
     
 output_file.close()
 file.close()
+
+#------------------------------#
