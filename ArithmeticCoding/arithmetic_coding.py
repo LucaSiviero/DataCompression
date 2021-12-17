@@ -73,7 +73,7 @@ class ArithmeticCoding:
                 self._restrict_interval(char_low, char_high)
                 return char
 
-    def encode(self, text: str) -> int:
+    def compress(self, text: str) -> int:
         '''
             resets the encoder and encodes 'text' in a 
             integer value by applying '_encode_char' to each 
@@ -89,7 +89,7 @@ class ArithmeticCoding:
         encoded = self.low + floor((self.high - self.low)/2)
         return encoded
     
-    def decode(self, coded_info: int) -> str:
+    def decompress(self, coded_info: int) -> str:
         '''
             resets the encoder and decodes 'coded_info' into 
             the original text.

@@ -5,7 +5,6 @@ class LZMA:
         self.decompressor = lzma.LZMADecompressor()
         self.compressor = lzma.LZMACompressor()
 
-    
     def compress(self, text:str) -> bytes:
         byte_text = bytes(text, "utf-16")                             #Conversion to bytes
         compressed_data = self.compressor.compress(byte_text)         #Invoke method and compress the data
