@@ -1,4 +1,4 @@
-from Source.first_order_source import FirstOrderSource
+from first_order_source import FirstOrderSource
 from hybrid_algorithm import HybridAlgorithm
 from alphabets import alphabets_
 import utils

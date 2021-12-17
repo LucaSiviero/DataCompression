@@ -1,7 +1,4 @@
-
-import sys
 from sys import argv
-import struct
 from struct import *
 
 # taking the compressed file input and the number of bits from command line
