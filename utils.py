@@ -1,4 +1,5 @@
 import os
+import math
 
 
 def normalize_to_int(value: float) -> int:
@@ -39,3 +40,37 @@ def get_num_char(file_size: int) -> int:
         file of 'file_size' kb.
     '''
     pass
+
+
+def get_entropy(alphabet: dict) -> float:
+    '''
+        calculates H() for a given alphabet.
+    '''
+    sum_ = 0
+
+    for char in alphabet:
+        prob = alphabet[char]
+        if prob > 0: 
+            sum_ = sum_ + (prob * math.log((1/prob), 2))
+        
+    return sum_
+
+
+def order_alphabets_by_entropy(alphabets) -> dict:
+    '''
+        returns an orderd dictionary of alphabets,
+        alphabet entropy is used as ordering criteria.
+    '''
+    alphabets_names = list(alphabets.keys())
+
+    sorted_names = sorted(
+        alphabets_names, 
+        key=lambda name : get_entropy(alphabets[name])
+    )
+
+    sorted_alphabets = {}
+
+    for name in sorted_names: 
+        sorted_alphabets[name] = alphabets[name]
+
+    return sorted_alphabets

@@ -1,16 +1,22 @@
 from first_order_source import FirstOrderSource
 from hybrid_algorithm import HybridAlgorithm
-from alphabets import alphabets_
 import utils
+import json
 
 FILEs_PATH = "files/"
 
+'''
+alphabets_file = open("alphabets.json")
+alphabets = json.load(alphabets_file)
+alphabets = utils.order_alphabets_by_entropy(alphabets)
+'''
 
 # generates a list containing 1, 10, ..., 10^6
 # SIZES = [10**i for i in range(0, 7) ]
 # file size is expressed in KB.
 SIZES = [1, 10, 100, 1000, 10000, 100000]
 
+# change alphabets_ to alphabets when json is correctly managed.
 SOURCES = [
     FirstOrderSource(alphabets_["CONST"]),
     FirstOrderSource(alphabets_["K-ARY-25"]),
@@ -34,8 +40,10 @@ performances = {
         str(source) : {
             size : 0 
             for size in SIZES
-        } for source in SOURCES
-    } for algorithm in ALGORITHMS
+        } 
+        for source in SOURCES
+    } 
+    for algorithm in ALGORITHMS
 }
 
 
