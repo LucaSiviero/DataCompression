@@ -1,4 +1,5 @@
 import random
+import utils
 
 class FirstOrderSource:
     def __init__(self, alphabet: dict) -> None:
@@ -19,10 +20,8 @@ class FirstOrderSource:
             entropy is the probabiliy mapped with the char that occurs
             the most in the dictionary (the biggest probability).
         '''
-        probabilities = list(self.alphabet.values())
-        entropy = max(probabilities)
-
-        return f"source_{entropy}"
+        entropy = utils.get_entropy(self.alphabet)
+        return str(entropy)
 
 
     def _produce_char(self) -> str:

@@ -60,7 +60,7 @@ for source in SOURCES:
             # compressed file names will be in the form: algorithm__source__size.txt
             # where 'algorithm' give informations about the algorithm used to 
             # compress the file, same definition for 'source' as before.
-            compr_file_name = f"{str(algorithm)}{INFO_SEP}{file_name}"
+            compr_file_name = f"{algorithm}{INFO_SEP}{file_name}"
             compr_file_path = os.path.join(FILEs_PATH, compr_file_name)
 
             # writing the compressed information into a new file.

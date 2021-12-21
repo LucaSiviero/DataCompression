@@ -9,6 +9,8 @@ class HybridAlgorithm():
 
         return text
 
+    def __hash__(self) -> str:
+        return str(self)
 
     def compress(self, text: str) -> str:
         compressed_text = text
