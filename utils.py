@@ -34,14 +34,6 @@ def get_compression_ratio(uncompressed_path: str, compressed_path: str) -> float
     return compressed_size/uncompressed_size
 
 
-def get_num_char(file_size: int) -> int:
-    '''
-        returns the amount of characters required to obtain a
-        file of 'file_size' kb.
-    '''
-    pass
-
-
 def get_entropy(alphabet: dict) -> float:
     '''
         calculates H() for a given alphabet.
@@ -56,7 +48,7 @@ def get_entropy(alphabet: dict) -> float:
     return sum_
 
 
-def order_alphabets_by_entropy(alphabets) -> dict:
+def order_alphabets(alphabets: dict) -> dict:
     '''
         returns an orderd dictionary of alphabets,
         alphabet entropy is used as ordering criteria.
@@ -64,8 +56,8 @@ def order_alphabets_by_entropy(alphabets) -> dict:
     alphabets_names = list(alphabets.keys())
 
     sorted_names = sorted(
-        alphabets_names, 
-        key=lambda name : get_entropy(alphabets[name])
+        alphabets_names,
+        key = lambda name : get_entropy(alphabets[name])
     )
 
     sorted_alphabets = {}

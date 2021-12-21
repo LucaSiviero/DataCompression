@@ -6,6 +6,9 @@ class HuffmanCoding:
 		self.codes = {}
 		self.reverse_mapping = {}
 
+	def __str__(self) -> str:
+		return "Huffman"
+
 	class HeapNode:
 		def __init__(self, char, freq):
 			self.char = char

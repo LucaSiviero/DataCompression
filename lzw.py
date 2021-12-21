@@ -5,6 +5,10 @@ from first_order_source import FirstOrderSource
 class LZW():
     def __init__(self, num_bit = 10) -> None:
         self.max_dictionary_size = 2**num_bit
+        self._num_bit = num_bit
+    
+    def __str__(self) -> str:
+        return f"LZW_{self._num_bit}"
 
     def _start_dictionary(self, start=97, end=109) -> None:
         '''

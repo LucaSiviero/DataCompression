@@ -8,7 +8,7 @@ class HybridAlgorithm():
         for algorithm in self.algorithms: text = text + f"{algorithm}_"
 
         return text
-        
+
 
     def compress(self, text: str) -> str:
         compressed_text = text
