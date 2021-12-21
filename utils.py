@@ -34,9 +34,10 @@ def get_compression_ratio(uncompressed_path: str, compressed_path: str) -> float
     return compressed_size/uncompressed_size
 
 
-def get_entropy(alphabet: dict) -> float:
+def get_entropy(alphabet: dict, decimal_digits = 4) -> float:
     '''
-        calculates H() for a given alphabet.
+        calculates H() for a given alphabet, entropy it's then
+        rounded according to 'decimal_digits'.
     '''
     sum_ = 0
 
@@ -45,7 +46,7 @@ def get_entropy(alphabet: dict) -> float:
         if prob > 0: 
             sum_ = sum_ + (prob * math.log((1/prob), 2))
         
-    return sum_
+    return round(sum_, decimal_digits)
 
 
 def order_alphabets(alphabets: dict) -> dict:

@@ -10,6 +10,9 @@ class FirstOrderSource:
         '''
 
         self.alphabet = alphabet
+    
+    def __hash__(self) -> str:
+        return str(self)
 
 
     def __str__(self) -> str:
@@ -20,7 +23,7 @@ class FirstOrderSource:
             entropy is the probabiliy mapped with the char that occurs
             the most in the dictionary (the biggest probability).
         '''
-        entropy = utils.get_entropy(self.alphabet)
+        entropy = utils.get_entropy(self.alphabet, decimal_digits=2)
         return str(entropy)
 
 

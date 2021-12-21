@@ -12,7 +12,7 @@ alphabets_path = os.path.join(here, 'alphabets.json')
 alphabets_file = open(alphabets_path)
 alphabets = utils.order_alphabets(json.load(alphabets_file))
 
-
+# creating a folder for un/compressed files.
 FILEs_PATH = os.path.join(here, 'files')
 os.mkdir(FILEs_PATH)
 
@@ -26,7 +26,8 @@ ALGORITHMS = [
     HybridAlgorithm([HuffmanCoding()]),
 ]
 
-# creating a storage for compression ratios with the following structure:
+# 3-nested dictionary to store compression ratios,
+# structured as follow:
 #     Algorithms
 #         Sources
 #             Sizes 
