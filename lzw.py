@@ -1,7 +1,3 @@
-from alphabets import alphabets_
-from first_order_source import FirstOrderSource
-
-
 class LZW():
     def __init__(self, num_bit = 10) -> None:
         self.max_dictionary_size = 2**num_bit
@@ -10,19 +6,13 @@ class LZW():
     def __str__(self) -> str:
         return f"LZW_{self._num_bit}"
 
-    def _start_dictionary(self, start=97, end=109) -> None:
+    def _start_dictionary(self, text: str) -> None:
         '''
-            starts the dictionary with the characters
-            between 'start' and 'end'.
-
-            start = 97 is 'a'
-            end = 109 is 'm' (excluded, so is from 'a' to 'l')
-
-            those numbers are Unicode values.
+            starts the dictionary with the characters in 'text'
         '''
         self.dictionary = { 
-            chr(i) : i 
-            for i in range(start, end)
+            char : i 
+            for i, char in enumerate(set(text))
         }
     
     def _update_dictionary(self, new_string: str) -> None:
@@ -47,7 +37,7 @@ class LZW():
             return result
 
 
-        self._start_dictionary()
+        self._start_dictionary(text)
         compressed_data = []
         string = ""
 

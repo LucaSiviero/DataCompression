@@ -24,14 +24,28 @@ def normalize_to_float(value: int) -> float:
     return float("0." + str(value))
 
 
-def get_compression_ratio(uncompressed_path: str, compressed_path: str) -> float:
+def compression_ratio_from_file(uncompressed_path: str, compressed_path: str, decimal_digits = 2) -> float:
     '''
         returns compression ratio for the input files.
     '''
     uncompressed_size = os.path.getsize(uncompressed_path)
     compressed_size = os.path.getsize(compressed_path)
 
-    return compressed_size/uncompressed_size
+    if uncompressed_size == 0: return 0
+
+    return round(compressed_size/uncompressed_size, decimal_digits)
+
+
+def compression_ratio(uncompressed_text: str, compressed_text: str, decimal_digits = 2) -> float:
+    '''
+        returns compression ratio for the input texts.
+    '''
+    uncompressed_size = len(uncompressed_text)
+    compressed_size = len(compressed_text)
+
+    if uncompressed_size == 0: return 0
+
+    return round(compressed_size/uncompressed_size, decimal_digits)
 
 
 def get_entropy(alphabet: dict, decimal_digits = 4) -> float:
