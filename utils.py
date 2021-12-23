@@ -33,7 +33,7 @@ def compression_ratio_from_file(uncompressed_path: str, compressed_path: str, de
 
     if uncompressed_size == 0: return 0
 
-    return round(compressed_size/uncompressed_size, decimal_digits)
+    return round(uncompressed_size/compressed_size, decimal_digits)
 
 
 def compression_ratio(uncompressed_text: str, compressed_text: str, decimal_digits = 2) -> float:
@@ -45,7 +45,7 @@ def compression_ratio(uncompressed_text: str, compressed_text: str, decimal_digi
 
     if uncompressed_size == 0: return 0
 
-    return round(compressed_size/uncompressed_size, decimal_digits)
+    return round(uncompressed_size/compressed_size, decimal_digits)
 
 
 def get_entropy(alphabet: dict, decimal_digits = 4) -> float:

@@ -1,7 +1,9 @@
 from first_order_source import FirstOrderSource
+from lzma_impl import LZMA
 from hybrid_algorithm import HybridAlgorithm
 from huffman import HuffmanCoding
 from lzw import LZW
+from arithmetic_coding import ArithmeticCoding
 import utils
 import json
 import os
@@ -14,10 +16,13 @@ alphabets_file = open(alphabets_path)
 alphabets = utils.order_alphabets(json.load(alphabets_file))
 
 # creating a folder for un/compressed files.
-FILEs_PATH = os.path.join(here, 'files')
-os.mkdir(FILEs_PATH)
-
 WRITING_FILES_IS_ENABLED = False
+
+if WRITING_FILES_IS_ENABLED:
+    FILEs_PATH = os.path.join(here, 'files')
+    shutil.rmtree(FILEs_PATH, ignore_errors=True)
+    os.mkdir(FILEs_PATH)
+
 
 SIZES = [ 100, 1000, 10000, 100000 ]
 
@@ -49,32 +54,32 @@ SEP = "-"*8
 
 for source in SOURCES:
     for file_size in SIZES:
-        # uncompressed file names will be in the form: source__size.txt
-        file_name = f"{source}{INFO_SEP}{file_size}.txt"
-        file_path = os.path.join(FILEs_PATH, file_name)
-        
         text = source.generate_text(file_size)
 
-        with open(file_path, 'w') as file:
-            if WRITING_FILES_IS_ENABLED: file.write(text)
+        if WRITING_FILES_IS_ENABLED:
+            # uncompressed file names will be in the form: source__size.txt
+            file_name = f"{source}{INFO_SEP}{file_size}.txt"
+            file_path = os.path.join(FILEs_PATH, file_name)
+
+            with open(file_path, 'w') as file:
+                file.write(text)
 
         for algorithm in ALGORITHMS:
-            # compressed file names will be in the form: algorithm__source__size.txt
-            compr_file_name = f"{algorithm}{INFO_SEP}{file_name}"
-            compr_file_path = os.path.join(FILEs_PATH, compr_file_name)
-            
             compr_text = algorithm.compress(text)
 
-            with open(compr_file_path, 'w') as compr_file:
-                if WRITING_FILES_IS_ENABLED:
+            if WRITING_FILES_IS_ENABLED:
+                # compressed file names will be in the form: algorithm__source__size.txt
+                compr_file_name = f"{algorithm}{INFO_SEP}{file_name}"
+                compr_file_path = os.path.join(FILEs_PATH, compr_file_name)
+
+                with open(compr_file_path, 'w') as compr_file:
                     compr_file.write(compr_text)
                     compr_ratio = utils.compression_ratio_from_file(file_path, compr_file_path)
-                else:   
-                    compr_ratio = utils.compression_ratio(text, compr_text)
+            else:
+                compr_ratio = utils.compression_ratio(text, compr_text)
 
             performances[str(algorithm)][str(source)][file_size] = compr_ratio
-
-if WRITING_FILES_IS_ENABLED == False: shutil.rmtree(FILEs_PATH)
+            print(f"uncomp_size: {len(text)}, comp_size: {len(compr_text)}, entropy: {str(source)}, size:{file_size}")
 
 for alg in performances:
     print(f"==={alg}===")
