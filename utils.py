@@ -31,7 +31,7 @@ def compression_ratio_from_file(uncompressed_path: str, compressed_path: str, de
     uncompressed_size = os.path.getsize(uncompressed_path)
     compressed_size = os.path.getsize(compressed_path)
 
-    if uncompressed_size == 0: return 0
+    if compressed_size == 0: return 0
 
     return round(uncompressed_size/compressed_size, decimal_digits)
 
@@ -43,7 +43,7 @@ def compression_ratio(uncompressed_text: str, compressed_text: str, decimal_digi
     uncompressed_size = len(uncompressed_text)
     compressed_size = len(compressed_text)
 
-    if uncompressed_size == 0: return 0
+    if compressed_size == 0: return 0
 
     return round(uncompressed_size/compressed_size, decimal_digits)
 

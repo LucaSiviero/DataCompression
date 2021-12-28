@@ -1,10 +1,11 @@
 class LZW():
-    def __init__(self, num_bit = 10) -> None:
+    def __init__(self, num_bit = 10, separator = ',') -> None:
         self.max_dictionary_size = 2**num_bit
         self._num_bit = num_bit
+        self._separator = separator
     
     def __str__(self) -> str:
-        return f"LZW_{self._num_bit}"
+        return f"LZW_nbit:{self._num_bit}"
 
     def _start_dictionary(self, text: str) -> None:
         '''
@@ -25,14 +26,12 @@ class LZW():
             self.dictionary[new_string] = dictionary_size
 
 
-
-    # what about launching Huffman after this?
     def compress(self, text: str) -> str:
-        def convert_to_str(compressed_data: list, delimitier = ''):
+        def convert_to_str(compressed_data: list):
             result = ""
 
             for code in compressed_data:
-                result = result + str(code) + delimitier
+                result = result + str(code) + self._separator
 
             return result
 

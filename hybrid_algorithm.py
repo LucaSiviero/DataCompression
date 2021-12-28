@@ -5,7 +5,11 @@ class HybridAlgorithm():
     def __str__(self) -> str:
         text = ""
 
-        for algorithm in self.algorithms: text = text + f"{algorithm}_"
+        if len(self.algorithms) == 1:
+            return str(self.algorithms[0])
+
+        for algorithm in self.algorithms: 
+            text = text + f"{algorithm}_"
 
         return text
 

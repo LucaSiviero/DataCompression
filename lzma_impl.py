@@ -5,6 +5,9 @@ class LZMA:
     def __init__(self) -> None:
         pass
 
+    def __str__(self) -> str:
+        return "LZMA"
+
     def compress(self, text:str) -> str:
         #Conversion to bytes for compress
         byte_text = bytes(text, "utf-8")                    
