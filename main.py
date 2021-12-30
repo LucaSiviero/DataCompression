@@ -12,9 +12,9 @@ import math
 
 # creating a folder for un/compressed files.
 WRITING_FILES_IS_ENABLED = False
+here = os.path.dirname(os.path.abspath(__file__))
 
 if WRITING_FILES_IS_ENABLED:
-    here = os.path.dirname(os.path.abspath(__file__))
     FILEs_PATH = os.path.join(here, 'files')
     shutil.rmtree(FILEs_PATH, ignore_errors=True)
     os.mkdir(FILEs_PATH)
@@ -29,7 +29,8 @@ alphabets_file = open(alphabets_path)
 ALPHABETS = utils.get_alphabets(json.load(alphabets_file))
 alphabets_file.close()
 
-ALPHABETS_SIZE = len(list(ALPHABETS.values())[0])
+
+ALPHABETS_SIZE = len(ALPHABETS[0])
 
 SIZES = [ 100, 1000, 10000, 100000 ]
 

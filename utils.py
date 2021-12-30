@@ -75,6 +75,9 @@ def get_alphabets(alphabets: dict) -> set:
         key = lambda name : get_entropy(alphabets[name])
     )
 
-    sorted_alphabets = {}
+    sorted_alphabets = []
+    
+    for alphabet_name in sorted_names:
+        sorted_alphabets.append(alphabets[alphabet_name])
 
     return sorted_alphabets
