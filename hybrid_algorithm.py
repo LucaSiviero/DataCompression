@@ -26,6 +26,7 @@ class HybridAlgorithm():
     
     def decompress(self, text:str) -> str:
         decompressed_text = text
+        
         for algorithm in self.algorithms[::-1]:
             decompressed_text = algorithm.decompress(decompressed_text)
 
