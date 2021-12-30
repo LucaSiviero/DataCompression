@@ -29,12 +29,9 @@ class LZW():
     def compress(self, text: str) -> str:
         def convert_to_str(compressed_data: list):
             result = ""
-
             for code in compressed_data:
                 result = result + str(code) + self._separator
-
             return result
-
 
         self._start_dictionary(text)
         compressed_data = []
@@ -42,16 +39,34 @@ class LZW():
 
         for symbol in text:                     
             string_plus_symbol = string + symbol
-
             if string_plus_symbol in self.dictionary: 
                 string = string_plus_symbol
             else:
                 self._update_dictionary(string_plus_symbol)
                 compressed_data.append(self.dictionary[string])
                 string = symbol
-
+        
+        if string in self.dictionary:       
+            compressed_data.append(self.dictionary[string])
+        
         return convert_to_str(compressed_data)
+        
+    def find_key(self, value):
+        for key,val in self.dictionary.items():
+            if str(val) == str(value):
+                return key
+        return None
 
 
-    def decompress(self) -> None:
-        pass
+    def decompress(self, compressed_data) -> str:
+        compressed_data_list = compressed_data.split(',')
+        compressed_data_list = compressed_data_list[:-1]
+
+        output = ""
+
+        for code in compressed_data_list:
+            key = self.find_key(code)
+            output = output + key
+
+        return output
+

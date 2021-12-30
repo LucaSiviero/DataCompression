@@ -23,3 +23,10 @@ class HybridAlgorithm():
             compressed_text = algorithm.compress(compressed_text)
         
         return compressed_text
+    
+    def decompress(self, text:str) -> str:
+        decompressed_text = text
+        for algorithm in self.algorithms[::-1]:
+            decompressed_text = algorithm.decompress(decompressed_text)
+
+        return decompressed_text
