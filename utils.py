@@ -63,9 +63,9 @@ def get_entropy(alphabet: dict, decimal_digits = 4) -> float:
     return round(sum_, decimal_digits)
 
 
-def order_alphabets(alphabets: dict) -> dict:
+def get_alphabets(alphabets: dict) -> set:
     '''
-        returns an orderd dictionary of alphabets,
+        returns an orderd set of alphabets,
         alphabet entropy is used as ordering criteria.
     '''
     alphabets_names = list(alphabets.keys())
@@ -76,8 +76,5 @@ def order_alphabets(alphabets: dict) -> dict:
     )
 
     sorted_alphabets = {}
-
-    for name in sorted_names: 
-        sorted_alphabets[name] = alphabets[name]
 
     return sorted_alphabets

@@ -8,29 +8,37 @@ import utils
 import json
 import os
 import shutil
-
-# loading (and then ordering) alphabets from the alphabets' file.
-here = os.path.dirname(os.path.abspath(__file__))
-alphabets_path = os.path.join(here, 'alphabets.json')
-alphabets_file = open(alphabets_path)
-alphabets = utils.order_alphabets(json.load(alphabets_file))
+import math
 
 # creating a folder for un/compressed files.
 WRITING_FILES_IS_ENABLED = False
 
 if WRITING_FILES_IS_ENABLED:
+    here = os.path.dirname(os.path.abspath(__file__))
     FILEs_PATH = os.path.join(here, 'files')
     shutil.rmtree(FILEs_PATH, ignore_errors=True)
     os.mkdir(FILEs_PATH)
 
 
+
+# loading (and then ordering) alphabets from the alphabets' file.
+ALPHABETS_FILE_NAME = 'alphabets3.json'
+
+alphabets_path = os.path.join(here, ALPHABETS_FILE_NAME)
+alphabets_file = open(alphabets_path)
+ALPHABETS = utils.get_alphabets(json.load(alphabets_file))
+alphabets_file.close()
+
+ALPHABETS_SIZE = len(list(ALPHABETS.values())[0])
+
 SIZES = [ 100, 1000, 10000, 100000 ]
 
-SOURCES = [ FirstOrderSource(alphabet) for alphabet in alphabets.values() ]
-
 ALGORITHMS = [
-    HybridAlgorithm([HuffmanCoding()]),
+    HybridAlgorithm([HuffmanCoding(), LZMA()]),
+    HybridAlgorithm([HuffmanCoding(), LZW()]),
 ]
+
+SOURCES = [ FirstOrderSource(alphabet) for alphabet in ALPHABETS ]
 
 # 3-nested dictionary to store compression ratios,
 # structured as follow:
@@ -51,8 +59,9 @@ performances = {
 INFO_SEP = "___"
 SEP = "-"*8
 
+for alphabet in ALPHABETS:
+    source = FirstOrderSource(alphabet)
 
-for source in SOURCES:
     for file_size in SIZES:
         text = source.generate_text(file_size)
 
@@ -79,7 +88,25 @@ for source in SOURCES:
                 compr_ratio = utils.compression_ratio(text, compr_text)
 
             performances[str(algorithm)][str(source)][file_size] = compr_ratio
-            print(f"uncomp_size: {len(text)}, comp_size: {len(compr_text)}, entropy: {str(source)}, size:{file_size}")
+
+
+huffman_lzma = "Huffman_LZMA_"
+
+for source in performances[huffman_lzma]:
+    for size in performances[huffman_lzma][source]:
+        value = performances[huffman_lzma][source][size] 
+        performances[huffman_lzma][source][size] = value * math.ceil(math.log(ALPHABETS_SIZE, 2))
+
+
+huffman_lzw = "Huffman_LZW_nbit:10_"
+
+for source in performances[huffman_lzw]:
+    for size in performances[huffman_lzw][source]:
+        value = performances[huffman_lzw][source][size] 
+        performances[huffman_lzw][source][size] = value * math.ceil(math.log(ALPHABETS_SIZE, 2))
+
+
+
 
 for alg in performances:
     print(f"==={alg}===")
@@ -88,3 +115,18 @@ for alg in performances:
         for size in performances[alg][source]:
             perf = performances[alg][source][size]
             print(f"|\t{size}:{perf}")
+
+
+# saving performances to "output.json"
+OUTPUT_FOLDER_NAME = "output"
+
+OUTPUT_FOLDER_PATH = os.path.join(here, OUTPUT_FOLDER_NAME)
+shutil.rmtree(OUTPUT_FOLDER_PATH, ignore_errors=True)
+os.mkdir(OUTPUT_FOLDER_PATH)
+
+
+OUTPUT_FILE_NAME = "output.json"
+
+OUTPUT_FILE_PATH = os.path.join(OUTPUT_FOLDER_PATH, OUTPUT_FILE_NAME)
+with open(OUTPUT_FILE_PATH, 'w') as output_file:
+    json.dump(performances, output_file)
