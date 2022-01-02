@@ -76,3 +76,24 @@ def get_alphabets(alphabets: dict) -> list:
     )
 
     return [alphabets[alph_name] for alph_name in sorted_names]
+
+
+def get_algorithms(performances: dict) -> list[str]:
+    return performances.keys()
+
+def get_entropies(performances: dict) -> list[float]:
+    '''
+        returns a list containing the entropies used
+        in the compressing stage. 
+    '''
+    for alg in performances:
+        entropies = performances[alg].keys()
+        return list(map(float, entropies))
+
+def get_performances(performances: dict, algorithm: str, entropy: float, sizes: list[int]):
+    '''
+        returns the compression ratios of a given algorithm
+        for a given  for the given sizes. 
+    '''
+
+    return [ performances[algorithm][str(entropy)][str(size)] for size in sizes ]

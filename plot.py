@@ -1,35 +1,32 @@
-from mpl_toolkits import mplot3d
-import numpy as np
 import matplotlib.pyplot as plt
-from numpy.core.fromnumeric import compress
 import os
 import json
-from utils import compression_ratio
+import utils
 
-fig = plt.figure()
-ax = plt.axes(projection='3d')
 
-here = os.path.dirname(os.path.abspath(__file__))
+def create_and_show_plot(x, y, z, color: str) -> None:
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    ax.plot(x, y, z, color)
+    plt.show()
+
 
 PERFORMANCES_FILE_NAME = "output.json"
-performances_folder = "output"
-performances_path = os.path.join(performances_folder, PERFORMANCES_FILE_NAME)
-performances_file = open(performances_path)
+PERFORMANCES_FOLDER = "output"
 
+here = os.path.dirname(os.path.abspath(__file__))
+PERFORMANCES_FOLDER_PATH = os.path.join(here, PERFORMANCES_FOLDER)
+performances_path = os.path.join(PERFORMANCES_FOLDER_PATH, PERFORMANCES_FILE_NAME)
+performances_file = open(performances_path)
 PERFORMANCES = json.load(performances_file)
 performances_file.close()
 
-compression_ratios = []
-entropies = [0.5, 1.5, 2, 3]
-sizes = [100, 1000, 10000, 100000]
+ALGORITHMS = utils.get_algorithms(PERFORMANCES)
+SIZES = [1000, 10000, 100000]
+ENTROPIES = utils.get_entropies(PERFORMANCES)
 
-for algorithm in PERFORMANCES:
-    compression_ratios = []
-    for entropy in PERFORMANCES[algorithm]:
-        for size in PERFORMANCES[algorithm][entropy]:
-            compression_ratios.append(PERFORMANCES[algorithm][entropy][size])
-            ax.plot3D(sizes, entropies, compression_ratios, 'black')
-
-
-ax.set_title('3D line plot')
-plt.show()
+for alg in ALGORITHMS:
+    for entropy in ENTROPIES:
+        x = [entropy for _ in SIZES]
+        z = utils.get_performances(PERFORMANCES, alg, entropy, SIZES)
+        create_and_show_plot(x, SIZES, z, "red")

@@ -22,7 +22,7 @@ if WRITING_FILES_IS_ENABLED:
 
 
 # loading (and then ordering) alphabets from the alphabets' file.
-ALPHABETS_FILE_NAME = 'alphabets3.json'
+ALPHABETS_FILE_NAME = 'alphabets2.json'
 
 alphabets_path = os.path.join(here, ALPHABETS_FILE_NAME)
 alphabets_file = open(alphabets_path)
