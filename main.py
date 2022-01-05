@@ -22,7 +22,7 @@ if WRITING_FILES_IS_ENABLED:
 
 
 # loading (and then ordering) alphabets from the alphabets' file.
-ALPHABETS_FILE_NAME = 'alphabets2.json'
+ALPHABETS_FILE_NAME = 'alphabets.json'
 
 alphabets_path = os.path.join(here, ALPHABETS_FILE_NAME)
 alphabets_file = open(alphabets_path)
@@ -30,13 +30,16 @@ ALPHABETS = utils.get_alphabets(json.load(alphabets_file))
 alphabets_file.close()
 
 
-ALPHABETS_SIZE = len(ALPHABETS[0])
 
-SIZES = [ 100, 1000, 10000, 100000 ]
+
+SIZES = [ 1000, 5500 , 10000, 55000 ,100000 ]
+#SIZES = [ 1000, 1200, 1400, 1600, 1800, 2000]
 
 ALGORITHMS = [
-    HybridAlgorithm([HuffmanCoding(), LZMA()]),
-    HybridAlgorithm([HuffmanCoding(), LZW()]),
+    HybridAlgorithm([ HuffmanCoding() ]),
+    HybridAlgorithm([ LZMA() ]),
+    HybridAlgorithm([ HuffmanCoding(), LZMA() ]),
+    HybridAlgorithm([ HuffmanCoding(), LZW() ]),
 ]
 
 SOURCES = [ FirstOrderSource(alphabet) for alphabet in ALPHABETS ]
@@ -58,7 +61,6 @@ performances = {
 }
 
 INFO_SEP = "___"
-SEP = "-"*8
 
 for alphabet in ALPHABETS:
     source = FirstOrderSource(alphabet)
@@ -91,32 +93,19 @@ for alphabet in ALPHABETS:
             performances[str(algorithm)][str(source)][file_size] = compr_ratio
 
 
-huffman_lzma = "Huffman_LZMA_"
+# correct huffman based algorithm compression ratios.
+huffman = "Huffman"
+huffman_lzma = "Huffman_LZMA"
+huffman_lzw = "Huffman_LZW_nbit:10"
+ALPHABETS_SIZE = len(ALPHABETS[0])
+huffman_factor = math.ceil(math.log(ALPHABETS_SIZE, 2))
 
-for source in performances[huffman_lzma]:
-    for size in performances[huffman_lzma][source]:
-        value = performances[huffman_lzma][source][size] 
-        performances[huffman_lzma][source][size] = value * math.ceil(math.log(ALPHABETS_SIZE, 2))
-
-
-huffman_lzw = "Huffman_LZW_nbit:10_"
-
-for source in performances[huffman_lzw]:
-    for size in performances[huffman_lzw][source]:
-        value = performances[huffman_lzw][source][size] 
-        performances[huffman_lzw][source][size] = value * math.ceil(math.log(ALPHABETS_SIZE, 2))
+performances = utils.update_performances(performances, huffman, huffman_factor)
+performances = utils.update_performances(performances, huffman_lzma, huffman_factor)
+performances = utils.update_performances(performances, huffman_lzw, huffman_factor)
 
 
-
-
-for alg in performances:
-    print(f"==={alg}===")
-    for source in performances[alg]:
-        print(f"|{SEP}{source}{SEP}")
-        for size in performances[alg][source]:
-            perf = performances[alg][source][size]
-            print(f"|\t{size}:{perf}")
-
+utils.print_performances(performances)
 
 # saving performances to "output.json"
 OUTPUT_FOLDER_NAME = "output"

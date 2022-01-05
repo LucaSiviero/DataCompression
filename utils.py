@@ -79,7 +79,23 @@ def get_alphabets(alphabets: dict) -> list:
 
 
 def get_algorithms(performances: dict) -> list[str]:
-    return performances.keys()
+    '''
+        returns a list containing the algorithms used
+        in the compressing stage. 
+    '''
+    return list(performances.keys())
+
+
+def get_sizes(performances: dict) -> list[int]:
+    '''
+        returns a list containing the sizes used
+        in the compressing stage. 
+    '''
+    for alg in performances:
+        for entropy in performances[alg]:
+            sizes = performances[alg][entropy].keys()
+            return list(map(int, sizes))
+
 
 def get_entropies(performances: dict) -> list[float]:
     '''
@@ -90,10 +106,32 @@ def get_entropies(performances: dict) -> list[float]:
         entropies = performances[alg].keys()
         return list(map(float, entropies))
 
+
 def get_performances(performances: dict, algorithm: str, entropy: float, sizes: list[int]):
     '''
         returns the compression ratios of a given algorithm
         for a given  for the given sizes. 
     '''
-
     return [ performances[algorithm][str(entropy)][str(size)] for size in sizes ]
+
+
+def print_performances(performances: dict) -> None:
+    '''
+        prints the performance 3-nested dictionary.
+    '''
+    SEP = "-"*8
+
+    for alg in performances:
+        print(f"==={alg}===")
+        for source in performances[alg]:
+            print(f"|{SEP}{source}{SEP}")
+            for size in performances[alg][source]:
+                perf = performances[alg][source][size]
+                print(f"|\t{size}:{perf}")
+
+def update_performances(performances: dict, alg: str, scaling_factor: float) -> None:
+    for source in performances[alg]:
+        for size in performances[alg][source]:
+            value = performances[alg][source][size] 
+            performances[alg][source][size] = value * scaling_factor
+    return performances

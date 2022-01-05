@@ -7,9 +7,10 @@ class HybridAlgorithm():
 
         if len(self.algorithms) == 1:
             return str(self.algorithms[0])
-
-        for algorithm in self.algorithms: 
+        
+        for algorithm in self.algorithms[:-1]: 
             text = text + f"{algorithm}_"
+        text = text + str(self.algorithms[-1])
 
         return text
 
