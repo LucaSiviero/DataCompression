@@ -1,3 +1,5 @@
+from huffman import HuffmanCoding
+
 class HybridAlgorithm():
     def __init__(self, algorithms: list):
         self.algorithms = algorithms
@@ -17,7 +19,20 @@ class HybridAlgorithm():
     def __hash__(self) -> str:
         return str(self)
 
+    def _update_algorithms(self) -> None:
+        algs = []
+
+        for alg in self.algorithms:
+            if str(alg) == "Huffman":
+                algs.append(HuffmanCoding())
+            else:
+                algs.append(alg)
+        
+        self.algorithms = algs
+
     def compress(self, text: str) -> str:
+        self._update_algorithms()
+
         compressed_text = text
 
         for algorithm in self.algorithms:

@@ -22,7 +22,7 @@ if WRITING_FILES_IS_ENABLED:
 
 
 # loading (and then ordering) alphabets from the alphabets' file.
-ALPHABETS_FILE_NAME = 'alphabets.json'
+ALPHABETS_FILE_NAME = 'alphabets3.json'
 
 alphabets_path = os.path.join(here, ALPHABETS_FILE_NAME)
 alphabets_file = open(alphabets_path)
@@ -40,6 +40,7 @@ ALGORITHMS = [
     HybridAlgorithm([ LZMA() ]),
     HybridAlgorithm([ HuffmanCoding(), LZMA() ]),
     HybridAlgorithm([ HuffmanCoding(), LZW() ]),
+    #HybridAlgorithm([ LZW() ]),
 ]
 
 SOURCES = [ FirstOrderSource(alphabet) for alphabet in ALPHABETS ]
@@ -100,8 +101,9 @@ huffman_lzw = "Huffman_LZW_nbit:10"
 ALPHABETS_SIZE = len(ALPHABETS[0])
 huffman_factor = math.ceil(math.log(ALPHABETS_SIZE, 2))
 
-performances = utils.update_performances(performances, huffman, huffman_factor)
-performances = utils.update_performances(performances, huffman_lzma, huffman_factor)
+
+#performances = utils.update_performances(performances, huffman, huffman_factor)
+#performances = utils.update_performances(performances, huffman_lzma, huffman_factor)
 performances = utils.update_performances(performances, huffman_lzw, huffman_factor)
 
 
