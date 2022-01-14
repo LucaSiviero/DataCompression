@@ -11,7 +11,7 @@ import shutil
 import math
 
 # creating a folder for un/compressed files.
-WRITING_FILES_IS_ENABLED = False
+WRITING_FILES_IS_ENABLED = True
 here = os.path.dirname(os.path.abspath(__file__))
 
 if WRITING_FILES_IS_ENABLED:
@@ -22,7 +22,7 @@ if WRITING_FILES_IS_ENABLED:
 
 
 # loading (and then ordering) alphabets from the alphabets' file.
-ALPHABETS_FILE_NAME = 'alphabets3.json'
+ALPHABETS_FILE_NAME = 'alphabets.json'
 
 alphabets_path = os.path.join(here, ALPHABETS_FILE_NAME)
 alphabets_file = open(alphabets_path)
@@ -31,16 +31,14 @@ alphabets_file.close()
 
 
 
+SIZES = [ 10, 100, 1000, 10000, 100000 ]
 
-SIZES = [ 1000, 5500 , 10000, 55000 ,100000 ]
-#SIZES = [ 1000, 1200, 1400, 1600, 1800, 2000]
 
 ALGORITHMS = [
     HybridAlgorithm([ HuffmanCoding() ]),
     HybridAlgorithm([ LZMA() ]),
-    HybridAlgorithm([ HuffmanCoding(), LZMA() ]),
     HybridAlgorithm([ HuffmanCoding(), LZW() ]),
-    #HybridAlgorithm([ LZW() ]),
+    HybridAlgorithm([ LZW() ]),
 ]
 
 SOURCES = [ FirstOrderSource(alphabet) for alphabet in ALPHABETS ]
@@ -86,8 +84,10 @@ for alphabet in ALPHABETS:
                 compr_file_path = os.path.join(FILEs_PATH, compr_file_name)
 
                 with open(compr_file_path, 'w') as compr_file:
+                    #TODO se lzma usare come compr_text il bytes del testo passato al compressore
                     compr_file.write(compr_text)
-                    compr_ratio = utils.compression_ratio_from_file(file_path, compr_file_path)
+
+                compr_ratio = utils.compression_ratio_from_file(file_path, compr_file_path)
             else:
                 compr_ratio = utils.compression_ratio(text, compr_text)
 
@@ -99,11 +99,10 @@ huffman = "Huffman"
 huffman_lzma = "Huffman_LZMA"
 huffman_lzw = "Huffman_LZW_nbit:10"
 ALPHABETS_SIZE = len(ALPHABETS[0])
-huffman_factor = math.ceil(math.log(ALPHABETS_SIZE, 2))
+huffman_factor = math.ceil(math.log(ALPHABETS_SIZE, 2)) 
 
 
-#performances = utils.update_performances(performances, huffman, huffman_factor)
-#performances = utils.update_performances(performances, huffman_lzma, huffman_factor)
+performances = utils.update_performances(performances, huffman, huffman_factor)
 performances = utils.update_performances(performances, huffman_lzw, huffman_factor)
 
 

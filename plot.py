@@ -17,6 +17,29 @@ def compare_algorithms(performances: dict, algorithms: list, entropies: list, si
 
     plt.show()
 
+
+
+
+
+def compare_algorithms_2(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:
+    
+    
+    for entropy in entropies:
+        for alg, color_ in zip(algorithms, colors):
+            print(color_, alg) # ----------------------------------------------------------- DEBUG --------------------------------------------------
+            y = utils.get_performances(performances, alg, entropy, sizes)
+            plt.xlabel('file size (byte)')
+            plt.ylabel('compression ratio')
+            plt.title(f"entropy: {entropy}")
+            plt.plot(sizes, y, color=color_, )
+
+        plt.show()
+
+
+
+
+
+
 def show_each_algorithms(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:
     for alg in algorithms:
         space_graph = plt.figure().add_subplot(projection='3d')
@@ -47,10 +70,10 @@ performances_file.close()
 ALGORITHMS = utils.get_algorithms(PERFORMANCES)
 SIZES = utils.get_sizes(PERFORMANCES)
 ENTROPIES = utils.get_entropies(PERFORMANCES)
-COLORS = ["red", "green", "blue", "orange", "black", "pink"]
+COLORS = ["red", "green", "blue", "orange", "black", "pink", "yellow", "cyan", "purple", "magenta"]
 
-show_each_algorithms(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
-compare_algorithms(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
+#show_each_algorithms(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
+compare_algorithms_2(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
 
 
 

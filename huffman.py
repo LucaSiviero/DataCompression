@@ -86,6 +86,10 @@ class HuffmanCoding:
 		self.make_codes()
 
 		encoded_text = self.get_encoded_text(text)
+
+		if len(encoded_text) == 0:
+			return '1'*len(text)
+
 		return encoded_text
 
 	def decompress(self, encoded_text: str) -> str:

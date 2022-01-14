@@ -8,11 +8,11 @@ class LZMA:
     def __str__(self) -> str:
         return "LZMA"
 
-    def compress(self, text:str) -> str:
+    def compress(self, text: str) -> str:
         #Conversion to bytes for compress
-        byte_text = bytes(text, "utf-8")                    
+        bytes_text = bytes(text, "utf-8")                    
         #Invoke method and compress the data            
-        compressed_data = compress(byte_text)                           
+        compressed_data = compress(bytes_text)                           
         return compressed_data
 
     def decompress(self, text:str) -> str:
