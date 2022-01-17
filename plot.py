@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import os
 import json
 import utils
@@ -9,35 +10,29 @@ def compare_algorithms(performances: dict, algorithms: list, entropies: list, si
     plt.ylabel('compression ratio')
     plt.title("algorithms")
     entropy = entropies[int(len(entropies)/2)]
+    patches = [ mpatches.Patch(color=color_, label=alg) for color_, alg in zip(colors, algorithms) ]
 
     for alg, color_ in zip(algorithms, colors):
-        print(color_, alg) # ----------------------------------------------------------- DEBUG --------------------------------------------------
         y = utils.get_performances(performances, alg, entropy, sizes)
-        plt.plot(sizes, y, color=color_, )
+        plt.legend(handles = patches)
+        plt.plot(sizes, y, color = color_, )
 
     plt.show()
 
 
-
-
-
 def compare_algorithms_2(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:
-    
-    
+    patches = [ mpatches.Patch(color=color_, label=alg) for color_, alg in zip(colors, algorithms) ]
+
     for entropy in entropies:
         for alg, color_ in zip(algorithms, colors):
-            print(color_, alg) # ----------------------------------------------------------- DEBUG --------------------------------------------------
             y = utils.get_performances(performances, alg, entropy, sizes)
             plt.xlabel('file size (byte)')
             plt.ylabel('compression ratio')
             plt.title(f"entropy: {entropy}")
+            plt.legend(handles = patches)
             plt.plot(sizes, y, color=color_, )
 
         plt.show()
-
-
-
-
 
 
 def show_each_algorithms(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:

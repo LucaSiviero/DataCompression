@@ -11,15 +11,13 @@ import shutil
 import math
 
 # creating a folder for un/compressed files.
-WRITING_FILES_IS_ENABLED = True
+WRITING_FILES_IS_ENABLED = False
 here = os.path.dirname(os.path.abspath(__file__))
 
 if WRITING_FILES_IS_ENABLED:
     FILEs_PATH = os.path.join(here, 'files')
     shutil.rmtree(FILEs_PATH, ignore_errors=True)
     os.mkdir(FILEs_PATH)
-
-
 
 # loading (and then ordering) alphabets from the alphabets' file.
 ALPHABETS_FILE_NAME = 'alphabets.json'
@@ -97,7 +95,7 @@ for alphabet in ALPHABETS:
 # correct huffman based algorithm compression ratios.
 huffman = "Huffman"
 huffman_lzma = "Huffman_LZMA"
-huffman_lzw = "Huffman_LZW_nbit:10"
+huffman_lzw = "Huffman_LZW"
 ALPHABETS_SIZE = len(ALPHABETS[0])
 huffman_factor = math.ceil(math.log(ALPHABETS_SIZE, 2)) 
 

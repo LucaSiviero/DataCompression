@@ -5,7 +5,7 @@ class LZW():
         self._separator = separator
     
     def __str__(self) -> str:
-        return f"LZW_nbit:{self._num_bit}"
+        return "LZW"
 
     def _start_dictionary(self, text: str) -> None:
         '''
