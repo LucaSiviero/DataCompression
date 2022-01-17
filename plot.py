@@ -6,21 +6,23 @@ import utils
 
 
 def compare_algorithms(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:
-    plt.xlabel('file size (byte)')
-    plt.ylabel('compression ratio')
-    plt.title("algorithms")
-    entropy = entropies[int(len(entropies)/2)]
+    # generating patches (small rectangles) for the legeng.
     patches = [ mpatches.Patch(color=color_, label=alg) for color_, alg in zip(colors, algorithms) ]
+    entropy = entropies[int(len(entropies)/2)]
 
     for alg, color_ in zip(algorithms, colors):
         y = utils.get_performances(performances, alg, entropy, sizes)
+        plt.xlabel('file size (byte)')
+        plt.ylabel('compression ratio')
+        plt.title("algorithms")
         plt.legend(handles = patches)
         plt.plot(sizes, y, color = color_, )
 
     plt.show()
 
 
-def compare_algorithms_2(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:
+def compare_algorithms_by_each_entropy(performances: dict, algorithms: list, entropies: list, sizes: list, colors: list) -> None:
+    # generating patches (small rectangles) for the legeng.
     patches = [ mpatches.Patch(color=color_, label=alg) for color_, alg in zip(colors, algorithms) ]
 
     for entropy in entropies:
@@ -67,8 +69,8 @@ SIZES = utils.get_sizes(PERFORMANCES)
 ENTROPIES = utils.get_entropies(PERFORMANCES)
 COLORS = ["red", "green", "blue", "orange", "black", "pink", "yellow", "cyan", "purple", "magenta"]
 
-#show_each_algorithms(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
-compare_algorithms_2(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
+show_each_algorithms(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
+compare_algorithms_by_each_entropy(PERFORMANCES, ALGORITHMS, ENTROPIES, SIZES, COLORS)
 
 
 
