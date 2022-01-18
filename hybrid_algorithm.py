@@ -1,4 +1,4 @@
-from huffman import HuffmanCoding
+import os
 
 class HybridAlgorithm():
     def __init__(self, algorithms: list):
@@ -19,31 +19,28 @@ class HybridAlgorithm():
     def __hash__(self) -> str:
         return str(self)
 
-    def _update_algorithms(self) -> None:
-        algs = []
+    def compress(self, uncompressed_path: str, compressed_path: str) -> str:
+        partial_files = []
+        partial_file = compressed_path
 
-        for alg in self.algorithms:
-            if str(alg) == "Huffman":
-                algs.append(HuffmanCoding())
+        for alg_id, alg in enumerate(self.algorithms):
+            if alg_id == len(self.algorithms) - 1:
+                partial_file = compressed_path
             else:
-                algs.append(alg)
+                partial_file = partial_file + str(alg_id)
+                partial_files.append(partial_file)
+
+            alg.compress(uncompressed_path, partial_file)
+            uncompressed_path = partial_file
         
-        self.algorithms = algs
+        for file in partial_files:
+            os.remove(file)
 
-    def compress(self, text: str) -> str:
-        self._update_algorithms()
 
-        compressed_text = text
-
-        for algorithm in self.algorithms:
-            compressed_text = algorithm.compress(compressed_text)
-        
-        return compressed_text
+        return compressed_path
     
-    def decompress(self, text:str) -> str:
-        decompressed_text = text
-        
-        for algorithm in self.algorithms[::-1]:
-            decompressed_text = algorithm.decompress(decompressed_text)
-
-        return decompressed_text
+    def decompress(self, compressed_path: str, uncompressed_path: str) -> str:
+        for alg in self.algorithms.reverse():
+            compressed_path = alg.decompress(compressed_path, uncompressed_path)
+            
+        return uncompressed_path

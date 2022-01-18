@@ -1,17 +1,16 @@
 from first_order_source import FirstOrderSource
 from lzma_impl import LZMA
 from hybrid_algorithm import HybridAlgorithm
-from huffman import HuffmanCoding
-from lzw import LZW
-from arithmetic_coding import ArithmeticCoding
+from huffman_impl import Huffman
+from lzw_impl import LZW
+
 import utils
 import json
 import os
 import shutil
-import math
 
 # creating a folder for un/compressed files.
-WRITING_FILES_IS_ENABLED = False
+WRITING_FILES_IS_ENABLED = True
 here = os.path.dirname(os.path.abspath(__file__))
 
 if WRITING_FILES_IS_ENABLED:
@@ -29,14 +28,23 @@ alphabets_file.close()
 
 
 
-SIZES = [ 10, 100, 1000, 10000, 100000 ]
+SIZES = [ 
+    500,
+    1000,
+    2000,
+    3000,
+    5000, 
+    10000,
+    50000, 
+    100000,
+]
 
 
 ALGORITHMS = [
-    HybridAlgorithm([ HuffmanCoding() ]),
-    HybridAlgorithm([ LZMA() ]),
-    HybridAlgorithm([ HuffmanCoding(), LZW() ]),
     HybridAlgorithm([ LZW() ]),
+    HybridAlgorithm([ Huffman(), LZW() ]),
+    HybridAlgorithm([ Huffman() ]),
+    HybridAlgorithm([ LZMA() ]),
 ]
 
 SOURCES = [ FirstOrderSource(alphabet) for alphabet in ALPHABETS ]
@@ -74,34 +82,15 @@ for alphabet in ALPHABETS:
                 file.write(text)
 
         for algorithm in ALGORITHMS:
-            compr_text = algorithm.compress(text)
-
             if WRITING_FILES_IS_ENABLED:
                 # compressed file names will be in the form: algorithm__source__size.txt
-                compr_file_name = f"{algorithm}{INFO_SEP}{file_name}"
-                compr_file_path = os.path.join(FILEs_PATH, compr_file_name)
-
-                with open(compr_file_path, 'w') as compr_file:
-                    #TODO se lzma usare come compr_text il bytes del testo passato al compressore
-                    compr_file.write(compr_text)
-
-                compr_ratio = utils.compression_ratio_from_file(file_path, compr_file_path)
-            else:
-                compr_ratio = utils.compression_ratio(text, compr_text)
+                compr_name = f"{algorithm}{INFO_SEP}{file_name}"
+                compr_path = os.path.join(FILEs_PATH, compr_name)
+                
+                algorithm.compress(file_path, compr_path)
+                compr_ratio = utils.compression_ratio_from_file(file_path, compr_path)
 
             performances[str(algorithm)][str(source)][file_size] = compr_ratio
-
-
-# correct huffman based algorithm compression ratios.
-huffman = "Huffman"
-huffman_lzma = "Huffman_LZMA"
-huffman_lzw = "Huffman_LZW"
-ALPHABETS_SIZE = len(ALPHABETS[0])
-huffman_factor = math.ceil(math.log(ALPHABETS_SIZE, 2)) 
-
-
-performances = utils.update_performances(performances, huffman, huffman_factor)
-performances = utils.update_performances(performances, huffman_lzw, huffman_factor)
 
 
 utils.print_performances(performances)
